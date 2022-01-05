@@ -5,8 +5,8 @@ import HomePage from "./pages/HomePage.js"
 import { LoginPage } from "./pages/LoginPage.js"
 import { RegisterPage } from "./pages/RegisterPage.js"
 import { WelcomePage } from "./pages/WelcomePage.js"
-import { MapPage } from "./pages/MapPage.js"
-import { ProgressPage } from "./pages/ProgressPage.js"
+import MapPage from "./pages/MapPage.js"
+import ProgressPage from "./pages/ProgressPage.js"
 import Navibar from "./components/Navibar.js"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
