@@ -1,6 +1,6 @@
 import React from "react";
 
-class WelcomePage extends React.Component {
+export class WelcomePage extends React.Component {
     render () {
         return (
             <div>

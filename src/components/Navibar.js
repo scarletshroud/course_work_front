@@ -13,11 +13,11 @@ function Navibar() {
                         <Nav.Link><Link to="/home">Home</Link></Nav.Link>
                         <Nav.Link><Link to="/learn">Learn</Link></Nav.Link>
                         <Nav.Link><Link to="/map">Map</Link></Nav.Link>
+                        <Nav.Link><Link to="/login">Sign In</Link></Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
         </div>
-
     )
 }
 
