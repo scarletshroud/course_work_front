@@ -20,9 +20,9 @@ export default function RegisterPage(){
       body: JSON.stringify({email: email, password: password})
     }
 
-    const resp = await fetch("http://localhost:8080/api/registration", requestOptions);
-    const data = await resp.json();
-    //TODO: valid or invalid login
+    fetch("http://localhost:8080/api/registration", requestOptions)
+      .then(response => response.json())
+      .then(loginState => setLoginState(loginState));
   }
 
   return (

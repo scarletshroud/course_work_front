@@ -5,8 +5,6 @@ export default function ProgressPage() {
   let [progress, setProgress] = useState();
   let progressTableData;
 
-
-
   function progressConverter() {
 
   }
