@@ -11,6 +11,7 @@ import Navibar from "./components/Navibar.js"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TricksPage from './pages/TricksPage';
+import TrickPage from './pages/TrickPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/registration" element={<RegisterPage/>}/>
         <Route path="/tricks" element={<TricksPage/>}/>
+        <Route path="/trick" element={<TrickPage/>}/>
       </Routes>
     </div>
   );

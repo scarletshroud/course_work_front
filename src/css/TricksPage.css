@@ -1,0 +1,11 @@
+.trick-container {
+    margin: 5px;
+    padding: 30px;
+    display: inline-block;
+    background: #EEDDCD;
+    border-radius: 10px;
+}
+
+h5 {
+    text-align: left;
+}

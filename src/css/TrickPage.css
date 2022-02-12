@@ -1,0 +1,16 @@
+.trick-container {
+    margin: 5px;
+    padding: 30px;
+    background: #EEDDCD;
+}
+
+.video {
+    display: block;
+    margin-left: auto;
+    margin-right:auto;
+    border-radius: 10px;
+}
+
+h5 {
+    text-align: left;
+}

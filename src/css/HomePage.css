@@ -1,0 +1,27 @@
+.photo-container {
+    display: inline-block;
+    width: 20%;
+    height: 30%;
+}
+
+.photo {
+    width: 240px;
+    height: 360px;
+}
+
+.user-info-container {
+    text-align: left;
+    display: inline-block;
+}
+
+.username {
+    text-size-adjust: 10%;
+}
+
+.status {
+    color: grey;
+}
+
+.sport {
+
+}

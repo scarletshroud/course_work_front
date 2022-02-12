@@ -12,12 +12,12 @@ export default function WelcomePage() {
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({token: email, sport: sport})
+            body: JSON.stringify({userToken: localStorage.getItem('userToken')})
           }
       
-          fetch("http://localhost:8080/api/add-user-sport", requestOptions)
+        fetch("http://localhost:8080/api/add-user-sport", requestOptions)
             .then(response => response.json())
-            .then(loginState => setLoginState(loginState));            
+            .then(data => setSport(data));        
     }
 
     return (
