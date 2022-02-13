@@ -14,7 +14,6 @@ const trick =
     };
 
 export default function TrickPage() {
-  
     return(
         <div>
             <h3>{trick.name}</h3>

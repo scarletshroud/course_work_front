@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-import {Nav} from "react-bootstrap";
-import {Link, Navigate, useNavigate } from "react-router-dom";
+import {Form, Nav, Button} from "react-bootstrap";
+import {Link, useNavigate } from "react-router-dom";
+import '../css/Auth.css'
 
 
 export default function LoginPage() {
@@ -47,13 +48,21 @@ export default function LoginPage() {
 
   return (
     <div>
-      <form>
-        <p> <label> E-mail: <input type="text" name="email" onChange={handleEmailInput}/> </label> </p>
-        <p> <label> Пароль: <input type="password" name="password" onChange={handlePasswordInput}/> </label> </p>
-        <p> <input type="submit" onClick={signIn} value="Войти"/> </p>
-      </form>
+      <Form className="login-form">
+        <h3>Sign In</h3>
+        <Form.Group className="mb-3"> 
+          <Form.Label className="label">E-mail: </Form.Label> 
+          <Form.Control type="email" placeholder="Enter email" onChange={handleEmailInput}/> 
+        </Form.Group>
 
-      <Nav.Link><Link to="/registration">У тебя ещё нет аккаунта? Нажми сюда.</Link></Nav.Link>
+        <Form.Group className="mb-3"> 
+          <Form.Label className="labell">Пароль: </Form.Label>
+          <Form.Control type="password" placeholder="Enter password" onChange={handlePasswordInput}/>
+        </Form.Group>
+
+        <Button type="submit" variant="primary" onClick={signIn}>Войти</Button>
+        <Nav.Link className="sign-up-ref"><Link to="/registration">У тебя ещё нет аккаунта? Нажми сюда.</Link></Nav.Link>
+      </Form>
     </div>
   );
 }
