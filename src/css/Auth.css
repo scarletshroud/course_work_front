@@ -20,7 +20,7 @@
     margin-top: 3%;
 }
 
-.sign-up-ref {
+.sign-up-ref, .sign-in-ref {
     padding-bottom: 10%;
 }
 
@@ -29,5 +29,5 @@ h3 {
 }
 
 .sign-up-button {
-    margin-bottom: 10%;
+    margin-bottom: 3%;
 }

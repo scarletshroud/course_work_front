@@ -1,0 +1,20 @@
+.sport-container {
+    margin: 5px;
+    padding: 30px;
+    display: inline-block;
+    background: #8ed9fc;
+    border-radius: 10px;
+}
+
+.submit-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1%;
+}
+
+.photo {
+    width: 200px;
+    height: 240px;
+    border-radius: 5%;
+}
