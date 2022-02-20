@@ -56,12 +56,12 @@ export default function LoginPage() {
         </Form.Group>
 
         <Form.Group className="mb-3"> 
-          <Form.Label className="labell">Пароль: </Form.Label>
+          <Form.Label className="labell">Password: </Form.Label>
           <Form.Control type="password" placeholder="Enter password" onChange={handlePasswordInput}/>
         </Form.Group>
 
-        <Button type="submit" variant="primary" onClick={signIn}>Войти</Button>
-        <Nav.Link className="sign-up-ref"><Link to="/registration">У тебя ещё нет аккаунта? Нажми сюда.</Link></Nav.Link>
+        <Button type="submit" variant="primary" onClick={signIn}>Sign In</Button>
+        <Nav.Link className="sign-up-ref"><Link to="/registration">Don't have an account? Click here.</Link></Nav.Link>
       </Form>
     </div>
   );

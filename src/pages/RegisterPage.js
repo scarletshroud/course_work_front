@@ -39,11 +39,12 @@ export default function RegisterPage(){
       </Form.Group>
 
       <Form.Group className="mb-3"> 
-        <Form.Label className="label">Пароль: </Form.Label>
+        <Form.Label className="label">Password: </Form.Label>
         <Form.Control type="password" placeholder="Enter password" onChange={handlePasswordInput}/>
       </Form.Group>
 
-      <Button type="submit" variant="primary" className="sign-up-button" onClick={signUp}>Зарегистрироваться</Button>
+      <Button type="submit" variant="primary" className="sign-up-button" onClick={signUp}>Sign Up</Button>
+      <Nav.Link className="sign-in-ref"><Link to="/login">Already have account?</Link></Nav.Link>
     </Form>
   );
 }
