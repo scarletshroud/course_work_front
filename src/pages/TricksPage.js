@@ -61,39 +61,47 @@ const trickss = [
 export default function TricksPage() {
 
     let [tricks, setTricks] = useState("");
+    let [content, setContent] = useState("");
 
-    function getSportTricks() {
-        fetch("http://localhost:8080/api/tricks/Skateboarding")
-          .then(response => response.json())
-          .then((result) => setTricks(result), (error) => { console.log(error); });
-        
-        console.log("wow");
-    }
+    useEffect(() => {
+        let isComponentMounted = true;
+        const fetchData = async () => {
+            const response = await fetch(`http://localhost:8080/api/tricks/${localStorage.getItem('userSportId')}`);
+            const data = await response.json();
+            if (isComponentMounted) {
+                setTricks(data);
+                console.log(data);
+                setContent(tricks.map((trick) =>
+                    <div className="trick-container" key={trick.id}>
+                        <h3>{trick.name}</h3>
+                        <VideoPlayer
+                            src={"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"}
+                            width="360"
+                            height="240"
+                        />
+                        <h5>Description:</h5> 
+                        {trick.description}
+                        <h5>How To:</h5> 
+                        {trick.howTo}
+                        <h5>Complexity:</h5> 
+                        {trick.complexity}
+                        <h5>People learned:</h5> 
+                        {trick.peopleStudied}
+                    </div>
+                ));
+            }
+        };
 
-    useEffect(() => { getSportTricks(); }, []);
+        fetchData();
+        return () => {
+            isComponentMounted = false;
+        }
+    }, []);
 
-    const content = trickss.map((trick) =>
-        <div className="trick-container" key={trick.id}>
-            <h3>{trick.name}</h3>
-            <VideoPlayer
-                src={"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"}
-                width="360"
-                height="240"
-            />
-            <h5>Description:</h5> 
-            {trick.description}
-            <h5>How To:</h5> 
-            {trick.howTo}
-            <h5>Complexity:</h5> 
-            {trick.complexity}
-            <h5>People learned:</h5> 
-            {trick.peopleStudied}
-        </div>
-    );
-
-    return(
+    return tricks ?
         <div>
             {content}
         </div>
-    );
+        :
+        <div>Loading...</div>
 }

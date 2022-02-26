@@ -31,6 +31,8 @@ export default function LoginPage() {
       .then((data) => {
         localStorage.setItem('userId', data.userId);
         localStorage.setItem('userToken', data.token);
+        localStorage.setItem('userSportId', data.userSportId);
+        console.log(data);
         if (data.userProfileIsFilled == true) {
           navigate("/home");
         } 
@@ -38,19 +40,6 @@ export default function LoginPage() {
           navigate("/welcome");
         }
       });
-  }
-
-  function logout() {
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({userToken: localStorage.getItem('userToken')})
-    }
-
-    fetch("http://localhost:8080/api/logout", requestOptions)
-      .then(response => response.json())
-      .then(localStorage.removeItem('userToken'))
-      .then(navigate("/login"));
   }
 
   return (
