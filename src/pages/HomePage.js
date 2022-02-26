@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Badge from 'react-bootstrap/Badge'
 import '../css/HomePage.css'
 
-const profile = {
+/*const profile = {
   "id": 1,
   "username": "Klip666",
   "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Skateboarder_in_the_air.jpg/800px-Skateboarder_in_the_air.jpg",
@@ -66,54 +66,59 @@ const learnedTricks = [
       "peopleStudied": 1,
       "videoId": 2
   }
-];
+]; */
 
 export default function HomePage() {
   let [profileInfo, setProfileInfo] = useState();
   let [tricks, setTricks] = useState();
 
- function getProfileInfo() {
-    fetch(`http://localhost:8080/api/user/${localStorage.getItem('userId')}`)
-      .then(response => response.json())
-      .then((data) => setProfileInfo(data))
-      .then(initTricks());
-  }
+  useEffect(() => {
+    let isComponentMounted = true;
+    const fetchData = async () => {
+      const response = await fetch(`http://localhost:8080/api/user/${localStorage.getItem('userId')}`);
+      const data = await response.json();
+      if (isComponentMounted) {
+        setProfileInfo(data);
+        setTricks(profileInfo.learnedTricks.map((trick) =>
+            <div className="" key={trick.id}>
+              {trick.complexity === 'Beginner Level' ? (
+                              <div className="tag-container">
+                              <Badge  pill bg="primary">
+                                {trick.name}
+                              </Badge>  
+                              </div>
+                              ) : (
+                                  trick.complexity === 'Medium Level' ? (
+                                    <div className="tag-container">
+                                    <Badge className="tag-container" pill bg="warning">
+                                      {trick.name}
+                                    </Badge> 
+                                    </div>
+                                  ) : (
+                                    <Badge pill bg="danger">
+                                      {trick.name}
+                                    </Badge> 
+                                  )
+                              ) 
+              } 
 
-  useEffect(() => { getProfileInfo(); }, []);
+            </div>
+        ));
+      }
+    };
+    fetchData();
+    return () => {
+      isComponentMounted = false;
+    }
+  }, []);
 
-  function initTricks() {
-    setTricks(profileInfo.learnedTricks.map((trick) =>
-    <div className="" key={trick.id}>
-      {trick.complexity === 'Beginner Level' ? (
-                      <div className="tag-container">
-                      <Badge  pill bg="primary">
-                        {trick.name}
-                      </Badge>  
-                      </div>
-                      ) : (
-                          trick.complexity === 'Medium Level' ? (
-                            <div className="tag-container">
-                            <Badge className="tag-container" pill bg="warning">
-                              {trick.name}
-                            </Badge> 
-                            </div>
-                          ) : (
-                            <Badge pill bg="danger">
-                              {trick.name}
-                            </Badge> 
-                          )
-                      ) 
-      } 
 
-    </div>
-    ));
-  }
 
   return profileInfo ?
     <div>
       <div id="profile-info">
         <div className="photo-container">
-          <img className="photo" src={profileInfo.photo}/>
+          <img className="photo" src={profileInfo.photoUrl}/>
         </div>
         <div className="user-info-container">
           <div className="username">{profileInfo.username}</div>
