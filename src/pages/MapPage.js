@@ -10,15 +10,15 @@ export default function MapPage() {
 
   function getSpotsOnArea(latitude, longitude) {
     const requestOptions = {
-      method: 'GET',
+      method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({latitude: latitude, longitude: longitude})
+      body: JSON.stringify({latitude: 59.93863, longitude: 30.31413})
     }
 
     fetch("http://localhost:8080/api/spots", requestOptions)
       .then(response => response.json())
       .then(
-        (result) => setSpots(result),
+        (result) => console.log(result),
         (error) => {});
   }
 

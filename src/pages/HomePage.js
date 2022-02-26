@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Badge from 'react-bootstrap/Badge'
 import '../css/HomePage.css'
 
@@ -70,60 +70,60 @@ const learnedTricks = [
 
 export default function HomePage() {
   let [profileInfo, setProfileInfo] = useState();
-  let [homeSpot, setHomeSpot] = useState();
+  let [tricks, setTricks] = useState();
 
  function getProfileInfo() {
-   /* const requestOptions = {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email: email, password: password})
-    }
-
-    fetch("http://localhost:8080/api/me", requestOptions)
+    fetch(`http://localhost:8080/api/user/${localStorage.getItem('userId')}`)
       .then(response => response.json())
-      .then(loginState => setLoginState(loginState)); */
+      .then((data) => setProfileInfo(data))
+      .then(initTricks());
   }
 
-  const tricks = learnedTricks.map((trick) =>
-  <div className="" key={trick.id}>
-    {trick.complexity === 'Beginner Level' ? (
-                    <div className="tag-container">
-                    <Badge  pill bg="primary">
-                      {trick.name}
-                    </Badge>  
-                    </div>
-                    ) : (
-                        trick.complexity === 'Medium Level' ? (
-                          <div className="tag-container">
-                          <Badge className="tag-container" pill bg="warning">
-                            {trick.name}
-                          </Badge> 
-                          </div>
-                        ) : (
-                          <Badge pill bg="danger">
-                            {trick.name}
-                          </Badge> 
-                        )
-                    ) 
-    } 
+  useEffect(() => { getProfileInfo(); }, []);
 
-  </div>
-);
+  function initTricks() {
+    setTricks(profileInfo.learnedTricks.map((trick) =>
+    <div className="" key={trick.id}>
+      {trick.complexity === 'Beginner Level' ? (
+                      <div className="tag-container">
+                      <Badge  pill bg="primary">
+                        {trick.name}
+                      </Badge>  
+                      </div>
+                      ) : (
+                          trick.complexity === 'Medium Level' ? (
+                            <div className="tag-container">
+                            <Badge className="tag-container" pill bg="warning">
+                              {trick.name}
+                            </Badge> 
+                            </div>
+                          ) : (
+                            <Badge pill bg="danger">
+                              {trick.name}
+                            </Badge> 
+                          )
+                      ) 
+      } 
 
-  return (
+    </div>
+    ));
+  }
+
+  return profileInfo ?
     <div>
       <div id="profile-info">
         <div className="photo-container">
-          <img className="photo" src={profile.photo}/>
+          <img className="photo" src={profileInfo.photo}/>
         </div>
         <div className="user-info-container">
-          <div className="username">{profile.username}</div>
-          <div className="status">{profile.status}</div>
-          <div className="sport">{profile.sport}</div>
-          <p>Home spot: {profile.homeSpot}</p>
+          <div className="username">{profileInfo.username}</div>
+          <div className="status">{profileInfo.status}</div>
+          <div className="sport">{profileInfo.sport}</div>
+          <p>Home spot: {profileInfo.homeSpotName}</p>
         </div>
       </div>
       <span>Learned Tricks: </span> {tricks}
     </div>
-  );
+  :
+  <div>Loading..</div>
 }

@@ -28,9 +28,16 @@ export default function LoginPage() {
 
     fetch("http://localhost:8080/api/login", requestOptions)
       .then(response => response.json())
-      .then((data) => localStorage.setItem('userToken', data.token))
-      .then(loginState => setLoginState(loginState))
-      .then( navigate("/home") );
+      .then((data) => {
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('userToken', data.token);
+        if (data.userProfileIsFilled == true) {
+          navigate("/home");
+        } 
+        else {
+          navigate("/welcome");
+        }
+      });
   }
 
   function logout() {
@@ -43,7 +50,7 @@ export default function LoginPage() {
     fetch("http://localhost:8080/api/logout", requestOptions)
       .then(response => response.json())
       .then(localStorage.removeItem('userToken'))
-      .then( navigate("/login") );
+      .then(navigate("/login"));
   }
 
   return (
