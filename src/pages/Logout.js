@@ -1,14 +1,19 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
+import {Link, useNavigate } from "react-router-dom";
 
-function logout() {
+export default function Logout() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userToken: localStorage.getItem('userToken')})
     }
-
+  
     fetch("http://localhost:8080/api/logout", requestOptions)
-      .then(response => response.json())
-      .then(localStorage.removeItem('userToken'))
-      .then(navigate("/login"));
+      .then(localStorage.removeItem('userToken'), localStorage.setItem('authenticated', false), navigate("/login"));
+  }, []);
+
+  return null;
 }

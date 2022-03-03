@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import VideoPlayer from "react-video-js-player"
+import { useNavigate } from 'react-router-dom'
+import SpotComments from "../components/SpotComments";
 import '../css/TrickPage.css'
 
 const trick = 
@@ -14,7 +16,16 @@ const trick =
     };
 
 export default function TrickPage() {
-    return(
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        const authenticated = localStorage.getItem('authenticated');
+        if (authenticated === 'false') {
+            navigate('/login');
+        }    
+    }, []);
+
+    return (
         <div>
             <h3>{trick.name}</h3>
             <VideoPlayer className="video"
@@ -30,6 +41,7 @@ export default function TrickPage() {
             {trick.complexity}
             <h5>People learned:</h5> 
             {trick.peopleStudied}
+            Комментарии: <SpotComments comments={trick.comments}/>
         </div>
     );
 }

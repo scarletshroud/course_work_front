@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import {Form, Nav, Button} from "react-bootstrap";
-import {Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import '../css/Auth.css'
-
 
 export default function LoginPage() {
   let [email, setEmail] = useState("");
@@ -30,8 +29,9 @@ export default function LoginPage() {
       .then(response => response.json())
       .then((data) => {
         localStorage.setItem('userId', data.userId);
-        localStorage.setItem('userToken', data.token);
+        localStorage.setItem('userToken', data.userToken);
         localStorage.setItem('userSportId', data.userSportId);
+        localStorage.setItem('authenticated', data.loginSuccess);
         console.log(data);
         if (data.userProfileIsFilled == true) {
           navigate("/home");

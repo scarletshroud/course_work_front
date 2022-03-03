@@ -1,77 +1,40 @@
 import React, {useState, useEffect} from "react";
 import VideoPlayer from "react-video-js-player"
-
-const trickss = [
-    {
-        "id": 1,
-        "name": "Barspin",
-        "description": "Making a spin by a steering wheel",
-        "howTo": "Put your hands on steering wheel like this...",
-        "complexity": "Medium Level",
-        "peopleStudied": 1,
-        "videoId": 2
-    },
-    {
-        "id": 2,
-        "name": "Barspin",
-        "description": "Making a spin by a steering wheel",
-        "howTo": "Put your hands on steering wheel like this...",
-        "complexity": "Medium Level",
-        "peopleStudied": 1,
-        "videoId": 2
-    },
-    {
-        "id": 3,
-        "name": "Barspin",
-        "description": "Making a spin by a steering wheel",
-        "howTo": "Put your hands on steering wheel like this...",
-        "complexity": "Medium Level",
-        "peopleStudied": 1,
-        "videoId": 2
-    },
-    {
-        "id": 4,
-        "name": "Barspin",
-        "description": "Making a spin by a steering wheel",
-        "howTo": "Put your hands on steering wheel like this...",
-        "complexity": "Medium Level",
-        "peopleStudied": 1,
-        "videoId": 2
-    },
-    {
-        "id": 5,
-        "name": "Barspin",
-        "description": "Making a spin by a steering wheel",
-        "howTo": "Put your hands on steering wheel like this...",
-        "complexity": "Medium Level",
-        "peopleStudied": 1,
-        "videoId": 2
-    },
-    {
-        "id": 6,
-        "name": "Barspin",
-        "description": "Making a spin by a steering wheel",
-        "howTo": "Put your hands on steering wheel like this...",
-        "complexity": "Medium Level",
-        "peopleStudied": 1,
-        "videoId": 2
-    }
-];
+import { useNavigate, Link } from 'react-router-dom'
+import '../css/TricksPage.css'
+import '../css/button.css'
 
 export default function TricksPage() {
-
     let [tricks, setTricks] = useState("");
     let [content, setContent] = useState("");
 
+    let navigate = useNavigate();
+
+    function updateUserTrickStatus(event, trickId, trickStatus) {
+        console.log("wow");
+        event.preventDefault();
+        const requestOptions = {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({token: localStorage.getItem('userToken'), trickId: trickId, trickStatus: trickStatus})
+        }
+    
+        fetch("http://localhost:8080/api/progress/update", requestOptions);
+      }
+
     useEffect(() => {
+        const authenticated = localStorage.getItem('authenticated');
+        if (authenticated === 'false') {
+            navigate('/login');
+        }
+        
         let isComponentMounted = true;
         const fetchData = async () => {
             const response = await fetch(`http://localhost:8080/api/tricks/${localStorage.getItem('userSportId')}`);
             const data = await response.json();
             if (isComponentMounted) {
                 setTricks(data);
-                console.log(data);
-                setContent(tricks.map((trick) =>
+                setContent(data.map((trick) =>
                     <div className="trick-container" key={trick.id}>
                         <h3>{trick.name}</h3>
                         <VideoPlayer
@@ -87,6 +50,12 @@ export default function TricksPage() {
                         {trick.complexity}
                         <h5>People learned:</h5> 
                         {trick.peopleStudied}
+                        <p/>
+                        <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'learned')}>Learned</button>
+                        <p/>
+                        <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'in progress')}>In Progress</button>
+                        <p/>
+                        <Link to="/trick">More About This Trick</Link>
                     </div>
                 ));
             }

@@ -7,6 +7,8 @@ import RegisterPage from "./pages/RegisterPage.js"
 import WelcomePage from "./pages/WelcomePage.js"
 import MapPage from "./pages/MapPage.js"
 import ProgressPage from "./pages/ProgressPage.js"
+import SpotPage from "./pages/SpotPage.js"
+import Logout from "./pages/Logout.js"
 import Navibar from "./components/Navibar.js"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,6 +28,8 @@ function App() {
         <Route path="/registration" element={<RegisterPage/>}/>
         <Route path="/tricks" element={<TricksPage/>}/>
         <Route path="/trick" element={<TrickPage/>}/>
+        <Route path="/logout" element={<Logout/>}/>
+        <Route path="/spot/:id" element={<SpotPage/>}/>
       </Routes>
     </div>
   );

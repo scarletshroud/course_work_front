@@ -1,43 +1,28 @@
 import React, {useState, useEffect} from "react";
 import {Form, Nav, Button} from "react-bootstrap";
+import { useNavigate } from 'react-router-dom'
 import "../css/WelcomePage.css"
-
-/*const sports = [
-    {
-        "id": 1,
-        "name": "Skateboarding",
-        "description": "Making a spin by a steering wheel",
-        "amountOfRiders": 3,
-    },
-    {
-        "id": 2,
-        "name": "BMX",
-        "description": "Making a spin by a steering wheel",
-        "amountOfRiders": 4,
-    },
-    {
-        "id": 3,
-        "name": "Scooter",
-        "description": "Making a spin by a steering wheel",
-        "amountOfRiders": 333,
-    }
-] */
 
 export default function WelcomePage() {
 
     let [sport, setSport] = useState("Skateboarding");
     let [username, setUsername] = useState("Username");
     let [sports, setSports] = useState();
+    let [content, setContent] = useState();
+
+    let navigate = useNavigate();
 
     function handleUsernameInput(event) {
         setUsername(event.target.value);
     }
 
-    function handleSportClick(sport) {
-        console.log(sport.name);
+    function handleSportClick(event) {
+        event.preventDefault();
+        setSport(event.target.getAttribute('data-key'));
     }
 
-    function onSubmit() {
+    function onSubmit(event) {
+        event.preventDefault();
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -46,44 +31,54 @@ export default function WelcomePage() {
       
         fetch('http://localhost:8080/api/complete', requestOptions)
             .then(response => response.json())
-            .then(data => setSport(data));        
+            .then(data => setSport(data));
     }
 
-    function getSports() {
-        fetch('http://localhost:8080/api/sports')
-            .then(response => response.json())
-            .then(data => setSports(data));
-    }
+    useEffect(() => {  
+        const authenticated = localStorage.getItem('authenticated');
+        if (authenticated === 'false') {
+            navigate('/login');
+        }
+        let isComponentMounted = true; 
+        const fetchData = async () => {
+            const response = await fetch(`http://localhost:8080/api/sports`);
+            const data = await response.json();
+            if (isComponentMounted) {
+                setSports(data);
+                setContent(data.map((sport) =>
+                <div className="sport-container" key={sport.id}>
+                    <h3>{sport.kind}</h3>
+                    <h5>Description:</h5> 
+                    {sport.description}
+                    <h5>Amount of riders</h5> 
+                    {sport.amount_of_riders}
+                    <p></p>
+                    <Button className="submit-button" type="button" variant="primary" data-key={sport.kind} onClick={(e) => handleSportClick(e)}>Select</Button>
+                </div>
+                ));
+            }
+        };
 
-    useEffect(() => { 
-        setTimeout(() => { getSports(); }, 2000)
+        fetchData();
+        return () => {
+            isComponentMounted = false;
+        }
     }, []);
-    
-    const content = sports.map((sport) =>
-        <div className="sport-container" key={sport.id}>
-            <h3>{sport.name}</h3>
-            <h5>Description:</h5> 
-            {sport.description}
-            <h5>Amount of riders</h5> 
-            {sport.amountOfRiders}
-            <p></p>
-            <Button className="submit-button" type="button" variant="primary">Select</Button>
-        </div>
-    );
 
-    return (
+    return sport ?
         <div>        
             <Form className="welcome-form">
                 <h3> Welcome! Only a few steps left! </h3>
                  
                 <Form.Group className="mb-3"> 
                     <Form.Label className="label">Username: </Form.Label> 
-                    <Form.Control type="text" placeholder="Enter username" onChange={handleUsernameInput}/> 
+                    <Form.Control type="text" placeholder="Enter username" onChange={(e) => handleUsernameInput(e)}/> 
                 </Form.Group> 
                 {content}
                 <p></p>
-                <Button className="submit-button" type="submit" variant="primary" onClick={onSubmit()}>Continue</Button>
+                <Button className="submit-button" type="submit" variant="primary" onClick={(e) => onSubmit(e)}>Continue</Button>
             </Form>
         </div>
-    );
+        :
+        <div>Loading...</div>
 }

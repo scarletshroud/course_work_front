@@ -1,78 +1,19 @@
 import React, {useState, useEffect} from "react";
+import { useNavigate } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import '../css/HomePage.css'
-
-/*const profile = {
-  "id": 1,
-  "username": "Klip666",
-  "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Skateboarder_in_the_air.jpg/800px-Skateboarder_in_the_air.jpg",
-  "homeSpot": "Richnoy",
-  "status": "Hype All Day",
-  "sport": "Skateboarding",
-};
-
-const learnedTricks = [
-  {
-      "id": 1,
-      "name": "Barspin",
-      "description": "Making a spin by a steering wheel",
-      "howTo": "Put your hands on steering wheel like this...",
-      "complexity": "Beginner Level",
-      "peopleStudied": 1,
-      "videoId": 2
-  },
-  {
-      "id": 2,
-      "name": "Barspin",
-      "description": "Making a spin by a steering wheel",
-      "howTo": "Put your hands on steering wheel like this...",
-      "complexity": "Medium Level",
-      "peopleStudied": 1,
-      "videoId": 2
-  },
-  {
-      "id": 3,
-      "name": "Barspin",
-      "description": "Making a spin by a steering wheel",
-      "howTo": "Put your hands on steering wheel like this...",
-      "complexity": "Medium Level",
-      "peopleStudied": 1,
-      "videoId": 2
-  },
-  {
-      "id": 4,
-      "name": "Barspin",
-      "description": "Making a spin by a steering wheel",
-      "howTo": "Put your hands on steering wheel like this...",
-      "complexity": "Medium Level",
-      "peopleStudied": 1,
-      "videoId": 2
-  },
-  {
-      "id": 5,
-      "name": "Barspin",
-      "description": "Making a spin by a steering wheel",
-      "howTo": "Put your hands on steering wheel like this...",
-      "complexity": "Medium Level",
-      "peopleStudied": 1,
-      "videoId": 2
-  },
-  {
-      "id": 6,
-      "name": "Barspin",
-      "description": "Making a spin by a steering wheel",
-      "howTo": "Put your hands on steering wheel like this...",
-      "complexity": "Experienced Level",
-      "peopleStudied": 1,
-      "videoId": 2
-  }
-]; */
 
 export default function HomePage() {
   let [profileInfo, setProfileInfo] = useState();
   let [tricks, setTricks] = useState();
 
+  let navigate = useNavigate();
+
   useEffect(() => {
+    const authenticated = localStorage.getItem('authenticated');
+    if (authenticated === 'false') {
+        navigate('/login');
+    }    
     let isComponentMounted = true;
     const fetchData = async () => {
       const response = await fetch(`http://localhost:8080/api/user/${localStorage.getItem('userId')}`);
@@ -112,23 +53,23 @@ export default function HomePage() {
     }
   }, []);
 
-
-
-  return profileInfo ?
-    <div>
-      <div id="profile-info">
-        <div className="photo-container">
-          <img className="photo" src={profileInfo.photoUrl}/>
+  return (
+    profileInfo ?
+      <div>
+        <div id="profile-info">
+          <div className="photo-container">
+            <img className="photo" src={profileInfo.photoUrl}/>
+          </div>
+          <div className="user-info-container">
+            <div className="username">{profileInfo.username}</div>
+            <div className="status">{profileInfo.status}</div>
+            <div className="sport">{profileInfo.sport}</div>
+            <p>Home spot: {profileInfo.homeSpotName}</p>
+          </div>
         </div>
-        <div className="user-info-container">
-          <div className="username">{profileInfo.username}</div>
-          <div className="status">{profileInfo.status}</div>
-          <div className="sport">{profileInfo.sport}</div>
-          <p>Home spot: {profileInfo.homeSpotName}</p>
-        </div>
+        <span>Learned Tricks: </span> {tricks}
       </div>
-      <span>Learned Tricks: </span> {tricks}
-    </div>
-  :
-  <div>Loading..</div>
+    :
+    <div>Loading..</div>
+  );
 }
