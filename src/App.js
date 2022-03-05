@@ -1,6 +1,5 @@
 import logo from './logo.svg';
-import {Routes, Route, Link, Router} from "react-router-dom";
-import './App.css';
+import {Routes, Route} from "react-router-dom";
 import HomePage from "./pages/HomePage.js"
 import LoginPage from "./pages/LoginPage.js"
 import RegisterPage from "./pages/RegisterPage.js"
@@ -10,10 +9,11 @@ import ProgressPage from "./pages/ProgressPage.js"
 import SpotPage from "./pages/SpotPage.js"
 import Logout from "./pages/Logout.js"
 import Navibar from "./components/Navibar.js"
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 import TricksPage from './pages/TricksPage';
 import TrickPage from './pages/TrickPage';
+
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

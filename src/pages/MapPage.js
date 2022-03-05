@@ -21,8 +21,7 @@ export default function MapPage() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({latitude: latitude, longitude: longitude})
     }
-
-    fetch("http://localhost:8080/api/spots", requestOptions)
+    await fetch("http://localhost:8080/api/spots", requestOptions)
       .then(response => response.json())
       .then(response => {
         setSpots(response);
@@ -70,5 +69,5 @@ export default function MapPage() {
         <LocationMarker />
       </MapContainer>
     </div>
-  );
+  )
 }
