@@ -20,7 +20,7 @@ export default function HomePage() {
       const data = await response.json();
       if (isComponentMounted) {
         setProfileInfo(data);
-        setTricks(profileInfo.learnedTricks.map((trick) =>
+        setTricks(data.learnedTricks.map((trick) =>
             <div className="" key={trick.id}>
               {trick.complexity === 'Beginner Level' ? (
                               <div className="tag-container">

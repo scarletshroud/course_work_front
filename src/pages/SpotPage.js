@@ -1,8 +1,8 @@
 import {useParams, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {Marker, Popup} from "react-leaflet";
-import SpotComments from "../components/SpotComments";
-import VideosFrame from "../components/VideoFrame";
+import Comments from "../components/Comments";
+import VideosFrame from '../components/VideosFrame.js';
 import PhotosFrame from "../components/PhotoFrame";
 
 export default function SpotsPage() {
@@ -95,7 +95,7 @@ export default function SpotsPage() {
       Количество посещений: {spot.peopleVisited} <br/>
       Активность: {spot.activity} <br/>
       Объекты: {objectToList(spot.objects)} <br/>
-      Комментарии: <SpotComments comments={spot.comments}/>
+      Комментарии: <Comments comments={spot.comments}/>
     </div>
   );
 }

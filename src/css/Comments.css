@@ -1,0 +1,29 @@
+.comment {
+    width: 40%;
+    margin: auto;
+    border-radius: 3px;
+    border: 1px solid;
+}
+
+.comment-header {
+    background: rgba(172, 192, 202, 0.863);
+    border-radius: 3px;
+    margin: auto;
+}
+
+.author-container {
+    color:rgb(0, 0, 0);
+    display: inline-block;
+}
+
+.date-container {
+    text-align: right;
+    color: rgb(92, 91, 91);
+    display: inline-block;
+    margin-left: 75%;
+}
+
+.text-container {
+    margin:auto;
+    text-align: left;    
+}

@@ -1,6 +1,7 @@
-.trick-container {
-    margin: 5px;
+.trick-container1 {
+    margin: 20px;
     padding: 30px;
+    width: 50%;
     display: inline-block;
     background: rgb(204, 239, 255);
     border-radius: 10px;

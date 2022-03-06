@@ -39,34 +39,34 @@ export default function ProgressPage() {
 
     setComponentMounted(true);
     const fetchData = async () => { 
-      const requestOptions = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({token: localStorage.getItem('userToken')})
-        }
-    
-      const response = await fetch("http://localhost:8080/api/progress", requestOptions);
-      const data = await response.json();
-      console.log(data);
-      if (isComponentMounted) {
-        setProgress(data);
-        setContent(data.map((trick) =>
-        <div key={trick.id}> 
-            {trick.progress === 'Learned' ? (
-                  <div>
-                    {trick.name}
-                    <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'default')}>Remove</button> 
-                  </div>
-              ) : (
-                  <div>
-                    {trick.name}
-                    <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'learned')}>Learned</button>
-                    <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'default')}>Remove</button>
-                  </div>
-              ) 
-            } 
-        </div>
-        ));
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({token: localStorage.getItem('userToken')})
+    }
+  
+    const response = await fetch("http://localhost:8080/api/progress", requestOptions);
+    const data = await response.json();
+    console.log(data);
+    if (isComponentMounted) {
+      setProgress(data);
+      setContent(data.map((trick) =>
+      <div key={trick.id}> 
+          {trick.trickStatus === 'learned' ? (
+                <div className="learned-trick">
+                  {trick.name}
+                  <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'default')}>Remove</button> 
+                </div>
+            ) : (
+                <div className="in-process-trick">
+                  {trick.name}
+                  <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'learned')}>Learned</button>
+                  <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'default')}>Remove</button>
+                </div>
+            ) 
+          } 
+      </div>
+      ));
       }
     }
 
@@ -81,8 +81,7 @@ export default function ProgressPage() {
   return (
     progress ?
         <div>
-          <div className="column-header"><h2>Learned</h2></div>
-          <div className="column-header"><h2>In Progress</h2></div>
+          <div className="column-header"><h2>My Progress</h2></div>
             {content}
         </div>
      : 

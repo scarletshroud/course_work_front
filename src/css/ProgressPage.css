@@ -1,3 +1,26 @@
 .column-header {
     display: inline-block;
 }
+
+.column {
+    width: 30%;
+    display: inline-block;
+}
+
+.learned-trick {
+    margin: auto;
+    margin-bottom: 3%;
+    padding: 2%;
+    width: 30%;
+    border-radius: 5px;
+    background-color: rgb(142, 250, 142);
+}
+
+.in-process-trick {
+    margin: auto;
+    margin-bottom: 3%;
+    padding: 2%;
+    width: 30%;
+    border-radius: 5px;
+    background-color: rgb(255, 235, 121);
+}

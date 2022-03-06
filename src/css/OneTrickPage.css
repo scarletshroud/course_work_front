@@ -1,7 +1,9 @@
 .trick-container {
-    margin: 5px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 3%;
     padding: 30px;
-    background: #EEDDCD;
+    background: rgb(204, 239, 255);
 }
 
 .video {

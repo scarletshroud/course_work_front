@@ -3,6 +3,7 @@ import VideoPlayer from "react-video-js-player"
 import { useNavigate, Link } from 'react-router-dom'
 import '../css/TricksPage.css'
 import '../css/button.css'
+import VideosFrame from '../components/VideosFrame.js';
 
 export default function TricksPage() {
     let [tricks, setTricks] = useState("");
@@ -11,7 +12,6 @@ export default function TricksPage() {
     let navigate = useNavigate();
 
     function updateUserTrickStatus(event, trickId, trickStatus) {
-        console.log("wow");
         event.preventDefault();
         const requestOptions = {
           method: 'POST',
@@ -34,18 +34,13 @@ export default function TricksPage() {
             const data = await response.json();
             if (isComponentMounted) {
                 setTricks(data);
+                console.log(data);
                 setContent(data.map((trick) =>
-                    <div className="trick-container" key={trick.id}>
+                    <div className="trick-container1" key={trick.id}>
                         <h3>{trick.name}</h3>
-                        <VideoPlayer
-                            src={"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"}
-                            width="360"
-                            height="240"
-                        />
+                        <VideosFrame video={trick.videos}/>
                         <h5>Description:</h5> 
                         {trick.description}
-                        <h5>How To:</h5> 
-                        {trick.howTo}
                         <h5>Complexity:</h5> 
                         {trick.complexity}
                         <h5>People learned:</h5> 
@@ -55,7 +50,7 @@ export default function TricksPage() {
                         <p/>
                         <button className="button" onClick={(e) => updateUserTrickStatus(e, trick.id, 'in progress')}>In Progress</button>
                         <p/>
-                        <Link to="/trick">More About This Trick</Link>
+                        <Link to={`/trick/${trick.id}`}>More About This Trick</Link>
                     </div>
                 ));
             }
