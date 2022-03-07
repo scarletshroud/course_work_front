@@ -3,7 +3,8 @@ import React from "react";
 export default function PhotosFrame(props) {
 
   function convertPhotosToFrames(props) {
-    const photos = props.photo;
+    console.log(props)
+    const photos = props;
     let photoFrames = null;
     if (photos !== undefined) {
       photoFrames = photos.map((photo) =>

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leaflet';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function MapPage() {
   const initPos = [51.505, -0.09];
@@ -12,7 +12,7 @@ export default function MapPage() {
     const authenticated = localStorage.getItem('authenticated');
     if (authenticated === 'false') {
         navigate('/login');
-    }    
+    }
   }, []);
 
   async function updateMarkerList(latitude, longitude) {
@@ -38,25 +38,27 @@ export default function MapPage() {
         setMarkerList(<MarkerList spots={spots}/>)
       }
     })
-    return position === null ? null : (
-      {markerList}
-    )
+    return <MarkerList spots={spots}/>;
   }
 
   function MarkerList(props) {
     const spots = props.spots;
-    const spotsList = spots.map((marker) =>
-      <Marker key={marker.id} position={[marker.latitude, marker.longitude]}>
-        <Popup>
-          <a href={`http://localhost:8080/api/spot/${marker.id}`}>{marker.name}</a> <br/>
-          {marker.description}
-        </Popup>
-      </Marker>
-    );
+    if (spots !== undefined) {
+      const spotsList = spots.map((marker) =>
+        <Marker key={marker.id} position={[marker.latitude, marker.longitude]}>
+          <Popup>
+            <Link to={`/spot/${marker.id}`}>{marker.name}</Link> <br/>
+            {marker.description}
+          </Popup>
+        </Marker>
+      );
 
-    return (
-      <ul>{spotsList}</ul>
-    );
+      return (
+        <ul>{spotsList}</ul>
+      );
+    }
+
+    return null;
   }
 
   return (

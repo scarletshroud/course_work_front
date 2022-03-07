@@ -4,14 +4,16 @@ import {Marker, Popup} from "react-leaflet";
 import Comments from "../components/Comments";
 import VideosFrame from '../components/VideosFrame.js';
 import PhotosFrame from "../components/PhotoFrame";
+import Badge from 'react-bootstrap/Badge'
+import '../css/Spot.css'
 
 export default function SpotsPage() {
   const {id} = useParams();
-  let [spot1, setSpot] = useState();
+  let [spot, setSpot] = useState();
 
   let navigate = useNavigate();
 
-  let spot = {
+  let spot1 = {
     "id": 1,
     "name": "Moskovskaya",
     "description": "A legendary street spot..",
@@ -62,40 +64,49 @@ export default function SpotsPage() {
     if (authenticated === 'false') {
         navigate('/login');
     }    
-}, []);
 
-  async function getSpotInformation(latitude, longitude) {
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({latitude: latitude, longitude: longitude})
+    let isComponentMounted = true;
+    const fetchData = async () => {
+      const response = await fetch(`http://localhost:8080/api/spot/${id}`);
+      const data = await response.json();
+      if (isComponentMounted) {
+        setSpot(data);
+        console.log(data);
+      }
+    };
+
+    fetchData();
+    return () => {
+      isComponentMounted = false;
     }
-    await fetch("http://localhost:8080/api/spots", requestOptions)
-      .then(response => response.json())
-      .then(result => setSpot(result));
-  }
+
+  }, []);
 
   function objectToList(objects) {
     const objectsList = objects.map((object) =>
-      <li key={object.id}>
-        {object.name}
-      </li>
+      <div className="tag-container" key={object.id}>
+        <Badge  pill bg="primary">
+          {object.name}
+        </Badge>
+      </div>
     );
 
     return (
       <ul>{objectsList}</ul>
     );
   }
-  return (
-    <div>
-      Название: {spot.name} <br/>
-      Описание: {spot.description} <br/>
-      Фото: <PhotosFrame photo={spot.photo}/> <br/>
-      Видео: <VideosFrame video={spot.video}/> <br/>
-      Количество посещений: {spot.peopleVisited} <br/>
-      Активность: {spot.activity} <br/>
-      Объекты: {objectToList(spot.objects)} <br/>
-      Комментарии: <Comments comments={spot.comments}/>
-    </div>
-  );
+  return spot ? (
+      <div>
+        <h3>{spot.name}</h3> <br/>
+        <h6>{spot.description}</h6> <br/>
+        <PhotosFrame photo={spot.photo}/> <br/>
+        <VideosFrame video={spot.video}/> <br/>
+        People visited: {spot.peopleVisited} <br/>
+        Activity: {spot.activity} <br/>
+        {objectToList(spot.objects)} <br/>
+        <Comments comments={spot.comments}/>
+      </div>
+    ) : ( 
+      <div>Loading...</div>
+    )
 }

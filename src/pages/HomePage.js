@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Badge from 'react-bootstrap/Badge'
 import '../css/HomePage.css'
 
@@ -20,13 +20,14 @@ export default function HomePage() {
       const data = await response.json();
       if (isComponentMounted) {
         setProfileInfo(data);
+        console.log(data);
         setTricks(data.learnedTricks.map((trick) =>
             <div className="" key={trick.id}>
               {trick.complexity === 'Beginner Level' ? (
                               <div className="tag-container">
-                              <Badge  pill bg="primary">
-                                {trick.name}
-                              </Badge>  
+                                <Badge  pill bg="primary">
+                                  {trick.name}
+                                </Badge>  
                               </div>
                               ) : (
                                   trick.complexity === 'Medium Level' ? (
@@ -64,7 +65,7 @@ export default function HomePage() {
             <div className="username">{profileInfo.username}</div>
             <div className="status">{profileInfo.status}</div>
             <div className="sport">{profileInfo.sport}</div>
-            <p>Home spot: {profileInfo.homeSpotName}</p>
+            <p>Home spot: <Link to={`/spot/${profileInfo.homeSpotId}`}>{profileInfo.homeSpotName}</Link> </p>
           </div>
         </div>
         <span>Learned Tricks: </span> {tricks}

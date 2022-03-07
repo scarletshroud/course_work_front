@@ -32,6 +32,8 @@ export default function WelcomePage() {
         fetch('http://localhost:8080/api/complete', requestOptions)
             .then(response => response.json())
             .then(data => setSport(data));
+
+        navigate("/home");
     }
 
     useEffect(() => {  
